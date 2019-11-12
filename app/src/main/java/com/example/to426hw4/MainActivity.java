@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     EditText editTextBirdName, editTextPersonName, editTextZipCode;
     Button buttonSubmit, buttonGoToSearch;
-
+//test comment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
