@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,31 +31,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonSubmit = findViewById(R.id.buttonSubmit);
         editTextBirdName = findViewById(R.id.editTextBirdName);
         editTextPersonName = findViewById(R.id.editTextPersonName);
-        editTextZipCode = findViewById(R.id.editTextZipCodeEnter);
+        editTextZipCode = findViewById(R.id.editTextZipCode);
+
 
         buttonSubmit.setOnClickListener(this);
         buttonGoToSearch.setOnClickListener(this);
+
+
     }
 
     @Override
     public void onClick(View v) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
+        final DatabaseReference myRef = database.getReference("Birds");
 
-        myRef.setValue("Hello, World!");
+
         if(v == buttonGoToSearch){
             Intent goToSearch = new Intent(this, SearchActivity.class);
             startActivity(goToSearch);
         }
         else if(v == buttonSubmit){
-            String birdName = editTextBirdName.getText().toString();
-            String personName = editTextPersonName.getText().toString();
-            
+
+            int createZipCode = Integer.parseInt(editTextZipCode.getText().toString());
+            String createBirdName = editTextBirdName.getText().toString();
+            String createPersonName = editTextPersonName.getText().toString();
+
+            Bird myBird = new Bird(createBirdName, createZipCode, createPersonName);
+
+            myRef.push().setValue(myBird);
+
+
+            Toast.makeText(this, "Submission Successful", Toast.LENGTH_SHORT).show();
+
         }
     }
 
-    public void makeNewEntry(String birdName, String personName, int zipCode){
-
-
-    }
 }
